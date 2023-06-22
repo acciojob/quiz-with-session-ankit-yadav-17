@@ -1,4 +1,27 @@
 //your JS code here.
+// Handle quiz submission
+const savedProgress = sessionStorage.getItem("progress");
+let userAnswers = savedProgress ? JSON.parse(savedProgress) : Array(questions.length).fill(null);
+
+function submitQuiz() {
+  const score = calculateScore();
+  localStorage.setItem("score", score);
+  const scoreElement = document.getElementById("score");
+  scoreElement.textContent = `Your score is ${score} out of ${questions.length}.`;
+}
+
+// Calculate the score
+function calculateScore() {
+  let score = 0;
+  for (let i = 0; i < questions.length; i++) {
+    if (userAnswers[i] === questions[i].answer) {
+      score++;
+    }
+  }
+  return score;
+}
+
+
 
 // Do not change code below this line
 // This code will just display the questions to the screen
@@ -54,3 +77,6 @@ function renderQuestions() {
   }
 }
 renderQuestions();
+
+const submitButton = document.getElementById("submit");
+submitButton.addEventListener("click", submitQuiz);
